@@ -1,9 +1,9 @@
 
-" let g:Powerline_symbols = 'fancy'
-" execute pathogen#infect()
-" syntax on
-" filetype plugin indent on
-" set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+let g:Powerline_symbols = 'fancy'
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
 
 " enable vim features, full colors
