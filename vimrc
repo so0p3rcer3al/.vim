@@ -1,10 +1,10 @@
 
-let g:Powerline_symbols = 'fancy'
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+let g:Powerline_symbols = 'fancy'
 
 " enable vim features, full colors
 set nocompatible encoding=utf8 t_Co=256
@@ -24,8 +24,19 @@ autocmd FileType vim              let b:comment_leader = '" '
 noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 
+" no delay when escaping from insert mode
+" https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
+if ! has('gui_running')
+	set ttimeoutlen=10
+	augroup FastEscape
+		autocmd!
+		au InsertEnter * set timeoutlen=0
+		au InsertLeave * set timeoutlen=1000
+	augroup END
+endif
+
 " basic display settings. turn vim mode on, show line numbers, show partial commands
-set ruler laststatus=2 showcmd showmode number wildmenu
+set ruler laststatus=2 showcmd noshowmode number wildmenu
 
 " improves searching
 set incsearch ignorecase smartcase hlsearch
