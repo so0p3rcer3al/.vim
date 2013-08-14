@@ -1,4 +1,5 @@
 
+set rtp+=~/.vim/autoload " ensures loading
 execute pathogen#infect()
 syntax on
 filetype plugin indent on

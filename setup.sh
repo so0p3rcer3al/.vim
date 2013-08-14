@@ -1,12 +1,15 @@
 
 
 
-# updates all plugins in bundle folder
-git submodule foreach git pull origin master
+# pulls all plugins in bundle folder
+git submodule init
+git submodule update
 
 # create symlink for .vimrc
 ln -s ~/.vim/vimrc ~/.vimrc
 
-# update font cache 
-fc-cache -vf ~/.vim/fonts
+# copy fonts and update font cache 
+mkdir -p ~/.fonts
+cp ~/.vim/fonts/* ~/.fonts
+fc-cache -vf ~/.fonts
 
