@@ -1,5 +1,6 @@
 
-set rtp+=~/.vim/autoload " ensures loading
+" set rtp+=~/.vim/autoload " ensures loading. try uncommenting if pathogen
+" fails to load.
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
@@ -12,6 +13,7 @@ set nocompatible mouse=a encoding=utf8 t_Co=256
 colorscheme molokai
 
 " automatically cd into the directory that the file is in
+" http://stackoverflow.com/questions/164847/what-is-in-your-vimrc
 autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
 
 " no delay when escaping from insert mode
@@ -25,20 +27,20 @@ if ! has('gui_running')
 	augroup END
 endif
 
-" basic display settings. turn vim mode on, show line numbers, show partial commands
+" basic display settings: line number, status, autocomplete
 set ruler laststatus=2 showcmd noshowmode number wildmenu
 
-" improves searching
+" search
 set incsearch ignorecase smartcase hlsearch
 
-" auto indents, for coding
+" indentation
 set autoindent smartindent
 
-" confirm instead of fail on invalid action (e.g. :q)
+" confirm on invalid action (e.g. :q)
 set confirm
 
 " tabs are 4 spaces wide
 set shiftwidth=4 tabstop=4
 
-" j/k will start scrolling the page when its 7 away from top/bottom
+" j/k will start scrolling the page before cursor reaches edge
 set scrolloff=7

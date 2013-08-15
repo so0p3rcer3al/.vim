@@ -10,6 +10,6 @@ git submodule update
 
 # copy fonts and update font cache 
 mkdir -p ~/.fonts
-cp ~/.vim/fonts/* ~/.fonts
+cp ~/.vim/.fonts/* ~/.fonts
 fc-cache -vf ~/.fonts
 
