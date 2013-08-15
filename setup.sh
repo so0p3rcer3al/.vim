@@ -1,6 +1,7 @@
 
 
-# create symlink for .vimrc
+# create symlink for .vimrc and pathogen
+ln -s ~/.pathogen/autoload/pathogen.vim ~/.vim/autoload
 rm -i ~/.vimrc
 ln -s ~/.vim/vimrc ~/.vimrc
 
