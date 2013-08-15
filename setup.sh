@@ -1,7 +1,8 @@
 
 
 # create symlink for .vimrc and pathogen
-ln -s ~/.pathogen/autoload/pathogen.vim ~/.vim/autoload
+mkdir -p ~/.vim/autoload
+ln -s ~/.vim/.pathogen/autoload/pathogen.vim ~/.vim/autoload
 rm -i ~/.vimrc
 ln -s ~/.vim/vimrc ~/.vimrc
 
