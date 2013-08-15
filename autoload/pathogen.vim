@@ -1,1 +1,0 @@
-/home/luna/.vim/.pathogen/autoload/pathogen.vim
