@@ -22,3 +22,9 @@
 [submodule "bundle/vim-seek"]
 	path = bundle/vim-seek
 	url = https://github.com/goldfeld/vim-seek.git
+[submodule "bundle/vim-multiple-cursors"]
+	path = bundle/vim-multiple-cursors
+	url = https://github.com/terryma/vim-multiple-cursors.git
+[submodule "bundle/numbers-vim"]
+	path = bundle/numbers-vim
+	url = https://github.com/myusuf3/numbers.vim.git
