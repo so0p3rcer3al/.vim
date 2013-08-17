@@ -1,7 +1,7 @@
 
 
 " enable vim features, full colors
-set nocompatible mouse=a encoding=utf8 t_Co=256
+set nocompatible mouse=n encoding=utf8 t_Co=256
 colorscheme molokai
 
 " test startup time
@@ -45,3 +45,5 @@ set confirm
 set shiftwidth=4 tabstop=4 
 " j/k will start scrolling the page before cursor reaches edge
 set scrolloff=7
+" use space to separate vertically split windows instead of |
+set fillchars+=vert:\ 
