@@ -22,7 +22,6 @@ filetype plugin indent on
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_symbols = 'fancy'
 
-
 " no delay when escaping from insert mode
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
 if ! has('gui_running')
@@ -36,18 +35,13 @@ endif
 
 " basic display settings: line number, status, autocomplete
 set ruler laststatus=2 showcmd noshowmode number wildmenu
-
 " search
 set incsearch ignorecase smartcase hlsearch
-
 " indentation
-set autoindent smartindent
-
+set autoindent smartindent 
 " confirm on invalid action (e.g. :q)
-set confirm
-
+set confirm 
 " tabs are 4 spaces wide
-set shiftwidth=4 tabstop=4
-
+set shiftwidth=4 tabstop=4 
 " j/k will start scrolling the page before cursor reaches edge
 set scrolloff=7
