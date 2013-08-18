@@ -1,9 +1,4 @@
 
-
-" enable vim features, full colors
-set nocompatible mouse=n encoding=utf8 t_Co=256
-colorscheme molokai
-
 " test startup time
 " https://github.com/yonchu/dotfiles/blob/master/.vimrc
 if has('vim_starting') && has('reltime')
@@ -13,6 +8,10 @@ if has('vim_starting') && has('reltime')
 					\ | echomsg 'startup: ' . reltimestr(g:startuptime) . ' ns'
 	augroup END
 endif
+
+" enable vim features, full colors
+set nocompatible mouse=n encoding=utf8 t_Co=256
+colorscheme molokai
 
 " set rtp+=~/.vim/autoload " try uncommenting if pathogen fails to load.
 execute pathogen#infect()
