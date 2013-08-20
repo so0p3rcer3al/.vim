@@ -11,15 +11,32 @@ endif
 
 " enable vim features, full colors
 set nocompatible mouse=n encoding=utf8 t_Co=256
-colorscheme molokai
+colorscheme defaulttheme
 
 " set rtp+=~/.vim/autoload " try uncommenting if pathogen fails to load.
 execute pathogen#infect()
+Helptags
 syntax on
 filetype plugin indent on
 
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-let g:Powerline_symbols = 'fancy'
+let g:airline_detect_whitespace=0
+let g:airline_theme='powerlineish'
+let g:airline_powerline_fonts=1
+let g:airline_mode_map={
+			\ '__' : '-',
+			\ 'n'  : 'N',
+			\ 'i'  : 'I',
+			\ 'R'  : 'R',
+			\ 'c'  : 'C',
+			\ 'v'  : 'V',
+			\ 'V'  : 'V',
+			\ '' : 'V',
+			\ 's'  : 'S',
+			\ 'S'  : 'S',
+			\ '' : 'S',
+			\ }
+let g:airline_enable_branch=1
+let g:airline_enable_syntastic=1
 
 " no delay when escaping from insert mode
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
