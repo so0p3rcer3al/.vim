@@ -24,16 +24,12 @@ let g:airline_theme='powerlineish'
 let g:airline_powerline_fonts=1
 let g:airline_mode_map={
 			\ '__' : '-',
-			\ 'n'  : 'N',
-			\ 'i'  : 'I',
-			\ 'R'  : 'R',
-			\ 'c'  : 'C',
-			\ 'v'  : 'V',
-			\ 'V'  : 'V',
-			\ '' : 'V',
-			\ 's'  : 'S',
-			\ 'S'  : 'S',
-			\ '' : 'S',
+			\ 'n'  : 'ノマ',
+			\ 'i'  : 'イン',
+			\ 'R'  : 'リプ',
+			\ 'v'  : 'ヴィ',
+			\ 'V'  : 'ライ',
+			\ '' : 'ブロ',
 			\ }
 let g:airline_enable_branch=1
 let g:airline_enable_syntastic=1
