@@ -4,6 +4,7 @@
 if has('vim_starting') && has('reltime')
 	let g:startuptime = reltime()
 	augroup StartupTimer
+		" can check units of reltime() by using :sleep <nn>m
 		autocmd! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
 					\ | echomsg 'startup: ' . reltimestr(g:startuptime) . ' s'
 	augroup END
@@ -27,6 +28,7 @@ let g:airline_mode_map={
 			\ 'n'  : 'ノマ',
 			\ 'i'  : 'イン',
 			\ 'R'  : 'リプ',
+			\ 'c'  : 'コマ',
 			\ 'v'  : 'ヴィ',
 			\ 'V'  : 'ライ',
 			\ '' : 'ブロ',
