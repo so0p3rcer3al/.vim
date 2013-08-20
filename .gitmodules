@@ -35,3 +35,7 @@
 [submodule "bundle/hardmode"]
 	path = bundle/hardmode
 	url = https://github.com/wikitopian/hardmode.git
+[submodule "bundle/single-compile"]
+	path = bundle/single-compile
+	url = https://github.com/xuhdev/SingleCompile.git
+	ignore = dirty

@@ -34,6 +34,10 @@ let g:airline_mode_map={
 let g:airline_enable_branch=1
 let g:airline_enable_syntastic=1
 
+" nmap <> :SCCompile<CR>
+nmap <F9> :SCCompileRun<CR>
+call SingleCompile#ChooseCompiler('c', 'gcc')
+call SingleCompile#ChooseCompiler('python', 'python3')
 
 " no delay when escaping from insert mode
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
@@ -61,14 +65,8 @@ set scrolloff=7
 " use space to separate vertically split windows instead of |
 set fillchars+=vert:\ 
 
-" autcommands 
+
 augroup VimHardmode
 	autocmd!
 	au VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 augroup END
-
-augroup BasicBuilds
-	autocmd!
-	au FileType c map <F9> :!gcc "%:p" -o "%:p:r.o" && "%:p:r.o" <CR>
-	au FileType python map <F9> :!python3 "%:p" <CR>
-augroup  END
