@@ -3,7 +3,7 @@
 " https://github.com/yonchu/dotfiles/blob/master/.vimrc
 if has('vim_starting') && has('reltime')
 	let g:startuptime = reltime()
-	augroup vimrc-startuptime
+	augroup StartupTimer
 		autocmd! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
 					\ | echomsg 'startup: ' . reltimestr(g:startuptime) . ' ns'
 	augroup END
@@ -34,6 +34,7 @@ let g:airline_mode_map={
 let g:airline_enable_branch=1
 let g:airline_enable_syntastic=1
 
+
 " no delay when escaping from insert mode
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
 if ! has('gui_running')
@@ -59,3 +60,15 @@ set shiftwidth=4 tabstop=4
 set scrolloff=7
 " use space to separate vertically split windows instead of |
 set fillchars+=vert:\ 
+
+" autcommands 
+augroup VimHardmode
+	autocmd!
+	au VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+augroup END
+
+augroup BasicBuilds
+	autocmd!
+	au FileType c map <F9> :!gcc "%:p" -o "%:p:r.o" && "%:p:r.o" <CR>
+	au FileType python map <F9> :!python3 "%:p" <CR>
+augroup  END
