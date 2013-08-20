@@ -5,7 +5,7 @@ if has('vim_starting') && has('reltime')
 	let g:startuptime = reltime()
 	augroup StartupTimer
 		autocmd! VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
-					\ | echomsg 'startup: ' . reltimestr(g:startuptime) . ' ns'
+					\ | echomsg 'startup: ' . reltimestr(g:startuptime) . ' s'
 	augroup END
 endif
 
