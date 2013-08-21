@@ -20,6 +20,8 @@ Helptags
 syntax on
 filetype plugin indent on
 
+let g:EasyMotion_leader_key = '<Leader>'
+
 let g:airline_detect_whitespace=0
 let g:airline_theme='powerlineish'
 let g:airline_powerline_fonts=1

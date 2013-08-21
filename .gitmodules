@@ -4,9 +4,6 @@
 [submodule "bundle/easymotion"]
 	path = bundle/easymotion
 	url = https://github.com/Lokaltog/vim-easymotion.git
-[submodule "bundle/vim-commentary"]
-	path = bundle/vim-commentary
-	url = https://github.com/tpope/vim-commentary.git
 [submodule "bundle/vim-repeat"]
 	path = bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
@@ -39,3 +36,6 @@
 	path = bundle/single-compile
 	url = https://github.com/xuhdev/SingleCompile.git
 	ignore = dirty
+[submodule "bundle/tcomment-vim"]
+	path = bundle/tcomment-vim
+	url = https://github.com/tomtom/tcomment_vim.git
