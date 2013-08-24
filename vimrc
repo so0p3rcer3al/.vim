@@ -71,6 +71,8 @@ set confirm
 set shiftwidth=4 tabstop=4 
 " j/k will start scrolling the page before cursor reaches edge
 set scrolloff=7
+" backspace over everything
+set backspace=2
 " use space to separate vertically split windows instead of |
 set fillchars+=vert:\ 
 
