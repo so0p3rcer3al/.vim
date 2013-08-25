@@ -40,12 +40,18 @@ let g:airline_enable_syntastic=1
 
 " nmap <> :SCCompile<CR>
 nmap <F8> :! ./
-nmap <F9> :SCCompileRun<CR>
-call SingleCompile#ChooseCompiler('c', 'gcc')
-call SingleCompile#SetCompilerTemplate('c', 'gcc', 'GNU C Compiler',
-			\'gcc', '-O0 -Wall -o $(FILE_TITLE)$.o', '$(FILE_EXEC)$.o')
-call SingleCompile#SetCompilerTemplate('c', 'icc', 'Intel C++ Compiler',
-			\ 'icc', '-fast -o $(FILE_TITLE)$.o', '$(FILE_EXEC)$.o')
+function SCCR ()
+	SCCompileRun
+	cwindow 4
+endfunction
+nmap <F9> :call SCCR()<CR><CR>
+
+let g:SingleCompile_silentcompileifshowquickfix=1
+let g:SingleCompile_usequickfix=1
+
+call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb',
+			\'gcc', '-O0 -Wall -g -o $(FILE_TITLE)$.o', '$(FILE_EXEC)$.o; [[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o')
+call SingleCompile#ChooseCompiler('c', 'gcc_d')
 call SingleCompile#ChooseCompiler('python', 'python3')
 
 " no delay when escaping from insert mode
