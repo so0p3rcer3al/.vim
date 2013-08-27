@@ -38,16 +38,23 @@ let g:airline_mode_map={
 let g:airline_enable_branch=1
 let g:airline_enable_syntastic=1
 
-" nmap <> :SCCompile<CR>
-nmap <F8> :! ./
-function SCCR ()
+function SCCR()
 	SCCompileRun
 	cwindow 4
 endfunction
-nmap <F9> :call SCCR()<CR><CR>
 
+nmap <F7> :call SCCR()<CR><CR>
+nmap <F8> :SCCompile<CR>
+augroup LanguageSpecific
+	autocmd!
+	au FileType c nmap <F9> :! valgrind --leak-check=full '%:p:r.o'<CR>
+augroup END
+
+" let g:SingleCompile_showquickfixiferror = 1
+" let g:SingleCompile_showquickfixifwarning = 1
 let g:SingleCompile_silentcompileifshowquickfix=1
 let g:SingleCompile_usequickfix=1
+let g:SingleCompile_usetee=0
 
 call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb',
 			\'gcc', '-O0 -Wall -g -o $(FILE_TITLE)$.o', '$(FILE_EXEC)$.o || ([[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o)')
