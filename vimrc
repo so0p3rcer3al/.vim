@@ -27,7 +27,7 @@ let g:airline_theme='powerlineish'
 let g:airline_powerline_fonts=1
 let g:airline_mode_map={
 			\ '__' : '-',
-			\ 'n'  : 'ノマ',
+			\ 'n'  : 'ノー',
 			\ 'i'  : 'イン',
 			\ 'R'  : 'リプ',
 			\ 'c'  : 'コマ',
