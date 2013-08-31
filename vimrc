@@ -38,8 +38,13 @@ let g:airline_mode_map={
 let g:airline_enable_branch=1
 let g:airline_enable_syntastic=1
 
+let g:sccr_additional_args=''
 function SCCR()
-	SCCompileRun
+	if ! empty(g:sccr_additional_args)
+		execute 'SCCompileRunAF '.g:sccr_additional_args
+	else
+		SCCompileRun
+	endif
 	cwindow 4
 endfunction
 
@@ -48,6 +53,7 @@ nmap <F8> :SCCompile<CR>
 augroup LanguageSpecific
 	autocmd!
 	au FileType c nmap <F9> :! valgrind --leak-check=full '%:p:r.o'<CR>
+	au BufReadPost quickfix if line('$') > 4 | set winheight=6 | endif
 augroup END
 
 " let g:SingleCompile_showquickfixiferror = 1
