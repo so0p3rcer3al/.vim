@@ -25,6 +25,16 @@ let g:EasyMotion_leader_key = '<Leader>'
 let g:airline_detect_whitespace=0
 let g:airline_theme='powerlineish'
 let g:airline_powerline_fonts=1
+" let g:airline_mode_map={
+" 			\ '__' : '-',
+" 			\ 'n'  : 'n',
+" 			\ 'i'  : 'i',
+" 			\ 'R'  : 'r',
+" 			\ 'c'  : 'c',
+" 			\ 'v'  : 'v',
+" 			\ 'V'  : 'l',
+" 			\ '' : 'b',
+" 			\ }
 let g:airline_mode_map={
 			\ '__' : '-',
 			\ 'n'  : 'ノー',
@@ -97,7 +107,7 @@ set backspace=2
 set fillchars+=vert:\ 
 
 
-augroup VimHardmode
-	autocmd!
-	au VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-augroup END
+" augroup VimHardmode
+" 	autocmd!
+" 	au VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+" augroup END
