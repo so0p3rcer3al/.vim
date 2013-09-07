@@ -78,6 +78,9 @@ call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb', 'gcc',
 call SingleCompile#ChooseCompiler('c', 'gcc_d')
 call SingleCompile#ChooseCompiler('python', 'python3')
 
+let g:file_template_default = {}
+let g:file_template_default["default"] = 'default'
+
 " no delay when escaping from insert mode
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
 if ! has('gui_running')
