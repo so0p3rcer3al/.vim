@@ -10,8 +10,10 @@ ln -s ~/.vim/vimrc ~/.vimrc
 git submodule init
 git submodule update
 
-# copy fonts and update font cache 
+# copy fonts and update font cache
 mkdir -p ~/.fonts
 cp ~/.vim/.fonts/* ~/.fonts
 fc-cache -vf ~/.fonts
 
+# install additional dependencies
+sudo apt-get install exuberant-ctags   # taglist.vim

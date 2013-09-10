@@ -73,7 +73,7 @@ let g:SingleCompile_usequickfix=1
 let g:SingleCompile_usetee=0
 
 call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb', 'gcc',
-			\'-std=c11 -O2 -pedantic -Wall -Wextra -Wshadow -Wcast-qual -Wswitch-default -Wswitch-enum -Wcast-align -Wbad-function-cast -Wstrict-prototypes -Winline -Wundef -Wnested-externs -Wunreachable-code -Wlogical-op -Wfloat-equal -Wredundant-decls -ggdb3 -o $(FILE_TITLE)$.o',
+			\'-std=c11 -O2 -pedantic -Wall -Wextra -Wno-sign-compare -Wshadow -Wcast-qual -Wswitch-default -Wswitch-enum -Wcast-align -Wbad-function-cast -Wstrict-prototypes -Winline -Wundef -Wnested-externs -Wunreachable-code -Wlogical-op -Wfloat-equal -Wredundant-decls -ggdb3 -o $(FILE_TITLE)$.o',
 			\'$(FILE_EXEC)$.o || ([[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o)')
 call SingleCompile#ChooseCompiler('c', 'gcc_d')
 call SingleCompile#ChooseCompiler('python', 'python3')
@@ -97,11 +97,11 @@ set ruler laststatus=2 showcmd noshowmode number wildmenu
 " search
 set incsearch ignorecase smartcase hlsearch
 " indentation
-set autoindent smartindent 
+set autoindent smartindent
 " confirm on invalid action (e.g. :q)
-set confirm 
+set confirm
 " tabs are 4 spaces wide
-set shiftwidth=4 tabstop=4 
+set shiftwidth=8 tabstop=8 noexpandtab
 " j/k will start scrolling the page before cursor reaches edge
 set scrolloff=7
 " backspace over everything
