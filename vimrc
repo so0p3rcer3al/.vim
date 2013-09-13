@@ -73,7 +73,7 @@ let g:SingleCompile_usequickfix=1
 let g:SingleCompile_usetee=0
 
 call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb', 'gcc',
-			\'-std=c11 -O2 -pedantic -Wall -Wextra -Wno-sign-compare -Wshadow -Wcast-qual -Wswitch-default -Wswitch-enum -Wcast-align -Wbad-function-cast -Wstrict-prototypes -Winline -Wundef -Wnested-externs -Wunreachable-code -Wlogical-op -Wfloat-equal -Wredundant-decls -ggdb3 -o $(FILE_TITLE)$.o',
+			\'-std=c11 -O0 -pedantic -Wall -Wextra -Wno-sign-compare -Wshadow -Wcast-qual -Wswitch-default -Wswitch-enum -Wcast-align -Wbad-function-cast -Wstrict-prototypes -Winline -Wundef -Wnested-externs -Wunreachable-code -Wlogical-op -Wfloat-equal -Wredundant-decls -ggdb3 -o $(FILE_TITLE)$.o',
 			\'$(FILE_EXEC)$.o || ([[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o)')
 call SingleCompile#ChooseCompiler('c', 'gcc_d')
 call SingleCompile#ChooseCompiler('python', 'python3')
@@ -96,11 +96,11 @@ endif
 set ruler laststatus=2 showcmd noshowmode number wildmenu
 " search
 set incsearch ignorecase smartcase hlsearch
-" indentation
-set autoindent smartindent
+" indentation and cursor positioning
+set autoindent smartindent nostartofline
 " confirm on invalid action (e.g. :q)
 set confirm
-" tabs are 4 spaces wide
+" tabs are 8 spaces wide
 set shiftwidth=8 tabstop=8 noexpandtab
 " j/k will start scrolling the page before cursor reaches edge
 set scrolloff=7
@@ -108,6 +108,8 @@ set scrolloff=7
 set backspace=2
 " use space to separate vertically split windows instead of |
 set fillchars+=vert:\ 
+" insecure?
+set nomodeline
 
 
 " augroup VimHardmode
