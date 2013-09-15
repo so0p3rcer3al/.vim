@@ -55,7 +55,7 @@ function SCCR()
 	else
 		SCCompileRun
 	endif
-	cwindow
+	cwindow 4
 endfunction
 
 nmap <F7> :call SCCR()<CR><CR>
@@ -63,7 +63,7 @@ nmap <F8> :SCCompile<CR>
 augroup LanguageSpecific
 	autocmd!
 	au FileType c nmap <F9> :! valgrind --leak-check=full '%:p:r.o'<CR>
-	au BufReadPost quickfix let &winheight=max([min([4, line('$')+1]), 10])
+	au BufReadPost quickfix let &winheight=min([max([4, line('$')+1]), 9])
 augroup END
 
 " let g:SingleCompile_showquickfixiferror = 1
@@ -73,10 +73,12 @@ let g:SingleCompile_usequickfix=1
 let g:SingleCompile_usetee=0
 
 call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb', 'gcc',
-		\'-std=c11 -O0 -pedantic -Wall -Wextra -Wno-sign-compare -Wshadow -Wcast-qual '.
+		\'-std=c11 -O0 -ggdb3 '.
+			\'-pedantic -Wall -Wextra -Wno-sign-compare -Wshadow -Wcast-qual '.
 			\'-Wswitch-default -Wswitch-enum -Wcast-align -Wbad-function-cast '.
 			\'-Wstrict-prototypes -Winline -Wundef -Wnested-externs -Wunreachable-code '.
-			\'-Wlogical-op -Wfloat-equal -Wredundant-decls -ggdb3 -o $(FILE_TITLE)$.o',
+			\'-Wlogical-op -Wfloat-equal -Wredundant-decls -Winline '.
+			\'-o $(FILE_TITLE)$.o',
 		\'$(FILE_EXEC)$.o || ([[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o)')
 call SingleCompile#ChooseCompiler('c', 'gcc_d')
 call SingleCompile#ChooseCompiler('python', 'python3')
@@ -110,7 +112,7 @@ set scrolloff=7
 " backspace over everything
 set backspace=2
 " use space to separate vertically split windows instead of |
-set fillchars+=vert:\ 
+set fillchars+=vert:\ "
 " insecure?
 set nomodeline
 
