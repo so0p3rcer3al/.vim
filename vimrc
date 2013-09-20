@@ -80,11 +80,18 @@ call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb', 'gcc',
 			\'-Wlogical-op -Wfloat-equal -Wredundant-decls -Winline '.
 			\'-o $(FILE_TITLE)$.o',
 		\'$(FILE_EXEC)$.o || ([[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o)')
+call SingleCompile#SetCompilerTemplate('make', 'mkp', 'dry run / debug', 'make',
+		\'-nf $(FILE_NAME)$', '')
 call SingleCompile#ChooseCompiler('c', 'gcc_d')
 call SingleCompile#ChooseCompiler('python', 'python3')
 
 let g:file_template_default = {}
 let g:file_template_default["default"] = 'default'
+
+" replace all words [under cursor | highlighted]
+nmap \C *:%s///g<left><left>
+nmap \c :%s///g<left><left>
+
 
 " no delay when escaping from insert mode
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
@@ -102,7 +109,7 @@ set ruler laststatus=2 showcmd noshowmode number wildmenu
 " search
 set incsearch ignorecase smartcase hlsearch
 " indentation and cursor positioning
-set autoindent smartindent nostartofline
+set autoindent smartindent nostartofline copyindent
 " confirm on invalid action (e.g. :q)
 set confirm
 " tabs are 8 spaces wide
@@ -115,6 +122,8 @@ set backspace=2
 set fillchars+=vert:\ "
 " insecure?
 set nomodeline
+" toggle paste (i.e., disables smart formatting)
+set pastetoggle=<F2>
 
 
 " augroup VimHardmode

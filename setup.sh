@@ -4,7 +4,7 @@
 mkdir -p ~/.vim/autoload
 ln -sf ~/.vim/.pathogen/autoload/pathogen.vim ~/.vim/autoload
 
-[ -f ~/.vimrc ] && [ $(readlink ~/.vimrc) != ~/.vim/vimrc ] && \
+[ "$(readlink ~/.vimrc)" != ~/.vim/vimrc ] && \
 	rm -i ~/.vimrc
 [ ! -f ~/.vimrc ] && \
 	ln -s ~/.vim/vimrc ~/.vimrc
