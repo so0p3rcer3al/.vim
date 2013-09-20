@@ -28,12 +28,19 @@ else
 	echoerr "Multiple plugin installs found: something has gone wrong!"
 endif
 
+" use the file's extension, if it exists.
+" otherwise, use the filetype.
+function! s:GetFileExtension()
+	let ext = expand('%:e')
+	return (ext != '' ? ext : &ft)
+endfunction
+
 function! ListAvailableTemplates(A,L,P)
 	let s:bufferFileName = expand('%:t')
 	let result = []
 	let resultDict = {}
 	if len(s:bufferFileName) > 0
-		let extension = expand('%:e')
+		let extension = s:GetFileExtension()
 		let files = split(globpath(s:FileTemplatePath, '*.'.extension), '\n')
 
 		for f in files
@@ -49,8 +56,8 @@ function! LoadFileTemplate(name)
 	let s:bufferFileName = expand('%:t')
 	if len(a:name) == 0
 		if exists('g:file_template_default')
-			if has_key(g:file_template_default, expand('%:e'))
-				let template_name = g:file_template_default[expand('%:e')]
+			if has_key(g:file_template_default, s:GetFileExtension())
+				let template_name = g:file_template_default[s:GetFileExtension()]
 			elseif has_key(g:file_template_default, 'default')
 				let template_name = g:file_template_default['default']
 			else
@@ -64,7 +71,7 @@ function! LoadFileTemplate(name)
 	endif
 
 	if len(s:bufferFileName) > 0
-		execute "silent! 0r ".s:FileTemplatePath.tolower(template_name).".".expand('%:e')
+		execute "silent! 0r ".s:FileTemplatePath.tolower(template_name).".".s:GetFileExtension()
 		syn match vimTemplateMarker "<+.++>" containedin=ALL
 		call ExpandTemplateNames()
 		call AskForOtherNames()
@@ -76,7 +83,7 @@ function! AddTemplate(name)
 	let template_name = a:name
 
 	if len(s:bufferFileName) > 0
-		execute "silent! r ".s:FileTemplatePath."templates/".tolower(template_name).".".expand('%:e')
+		execute "silent! r ".s:FileTemplatePath."templates/".tolower(template_name).".".s:GetFileExtension()
 		syn match vimTemplateMarker "<+.++>" containedin=ALL
 		call ExpandTemplateNames()
 		call AskForOtherNames()
