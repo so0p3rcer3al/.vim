@@ -48,24 +48,6 @@ let g:airline_mode_map={
 let g:airline_enable_branch=1
 let g:airline_enable_syntastic=1
 
-let g:sccr_additional_args=''
-function SCCR()
-	if ! empty(g:sccr_additional_args)
-		execute 'SCCompileRunAF '.g:sccr_additional_args
-	else
-		SCCompileRun
-	endif
-	cwindow 4
-endfunction
-
-nmap <F7> :call SCCR()<CR><CR>
-nmap <F8> :SCCompile<CR>
-augroup LanguageSpecific
-	autocmd!
-	au FileType c nmap <F9> :! valgrind --leak-check=full '%:p:r.o'<CR>
-	au BufReadPost quickfix let &winheight=min([max([4, line('$')+1]), 9])
-augroup END
-
 " let g:SingleCompile_showquickfixiferror = 1
 " let g:SingleCompile_showquickfixifwarning = 1
 let g:SingleCompile_silentcompileifshowquickfix=1
@@ -95,12 +77,12 @@ nmap \c :%s///g<left><left>
 
 " no delay when escaping from insert mode
 " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
-if ! has('gui_running')
+if !has('gui_running')
 	set ttimeoutlen=10
 	augroup FastEscape
 		autocmd!
-		au InsertEnter * set timeoutlen=0
-		au InsertLeave * set timeoutlen=1000
+		autocmd InsertEnter * set timeoutlen=0
+		autocmd InsertLeave * set timeoutlen=1000
 	augroup END
 endif
 
@@ -125,8 +107,59 @@ set nomodeline
 " toggle paste (i.e., disables smart formatting)
 set pastetoggle=<F2>
 
-
 " augroup VimHardmode
 " 	autocmd!
 " 	au VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 " augroup END
+
+
+" ------------------- custom stuff & wip ---------------------------
+" lets user select a command from the list to run. also saves the result
+" for quick rerunning.
+func QuickRun(opts, resel)
+	let l:list='g:'.a:opts
+	let l:prev='b:OPT_'.a:opts
+	if a:resel || !exists(l:prev)
+		exec 'let '.l:prev."=tlib#input#List('s','run a command',".l:list.')'
+	en
+	exec 'let l:rc='.l:prev
+	call feedkeys(':'.l:rc.'')
+	cwin 4
+endf
+" sets default command to be run. includes error check to ensure that
+" the command is an option that the user can select.
+func SetQuickRunDefault(opts, val)
+	exec 'let l:list=g:'.a:opts
+	let l:prev='b:OPT_'.a:opts
+	if index(l:list, a:val) == -1
+		echoerr a:val.' is not a valid default'
+		return
+	en
+	exec 'let '.l:prev.'=a:val'
+endf
+
+let g:sccr_additional_args=''
+let g:qrp_compilerun=[
+			\ 'make',
+			\ 'make clean',
+			\ 'SCCompileRun',
+			\ 'SCCompileRunAF g:sccr_additional_args',
+			\ 'SCCompile',
+			\ 'SCCompileAF g:sccr_additional_args',
+			\ ]
+nm <F7> :call QuickRun('qrp_compilerun', 0)<CR>
+nm <S-F7> :call QuickRun('qrp_compilerun', 1)<CR>
+
+let g:qrp_extras=[
+			\ ':! valgrind --leak-check=full "%:p:r.o"'
+			\ ]
+nm <F9> :call QuickRun('qrp_extras', 0)<CR>
+nm <S-F9> :call QuickRun('qrp_extras', 1)<CR>
+
+augr MiscAutos
+	au!
+	au BufReadPost quickfix let &winheight=min([max([4, line('$')+1]), 9])
+augr END
+
+
+

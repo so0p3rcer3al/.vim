@@ -9,7 +9,7 @@ ln -sf ~/.vim/.pathogen/autoload/pathogen.vim ~/.vim/autoload
 [ ! -f ~/.vimrc ] && \
 	ln -s ~/.vim/vimrc ~/.vimrc
 
-# pulls all plugins in bundle folder
+# pull all plugins in bundle folder
 git submodule init
 git submodule update
 
