@@ -114,8 +114,8 @@ set pastetoggle=<F2>
 
 
 " ------------------- custom stuff & wip ---------------------------
-" lets user select a command from the list to run. also saves the result
-" for quick rerunning.
+" lets user select a command from the list to run. the command will be saved
+" and run automatically the next time. call with resel=1 to force reselect.
 func QuickRun(opts, resel)
 	let l:list='g:'.a:opts
 	let l:prev='b:OPT_'.a:opts
@@ -146,18 +146,21 @@ let g:qrp_compilerun=[
 			\ 'SCCompileRunAF g:sccr_additional_args',
 			\ 'SCCompile',
 			\ 'SCCompileAF g:sccr_additional_args',
+			\ '! "%:p"',
 			\ ]
 nm <F7> :call QuickRun('qrp_compilerun', 0)<CR>
 nm <S-F7> :call QuickRun('qrp_compilerun', 1)<CR>
 
 let g:qrp_extras=[
-			\ ':! valgrind --leak-check=full "%:p:r.o"'
+			\ '! chmod a+x "%:p"',
+			\ '! valgrind --leak-check=full "%:p:r.o"'
 			\ ]
 nm <F9> :call QuickRun('qrp_extras', 0)<CR>
 nm <S-F9> :call QuickRun('qrp_extras', 1)<CR>
 
 augr MiscAutos
 	au!
+	au BufRead,BufNewFile *.c call SetQuickRunDefault('qrp_compilerun', 'SCCompileRun')
 	au BufReadPost quickfix let &winheight=min([max([4, line('$')+1]), 9])
 augr END
 
