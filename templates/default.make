@@ -1,1 +1,0 @@
-horray! makefile template loaded!
