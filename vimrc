@@ -57,10 +57,24 @@ let g:SingleCompile_usetee=0
 
 call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb', 'gcc',
 		\'-std=c11 -O0 -ggdb3 '.
-			\'-pedantic -Wall -Wextra -Wno-sign-compare -Wshadow -Wcast-qual '.
-			\'-Wswitch-default -Wswitch-enum -Wcast-align -Wbad-function-cast '.
-			\'-Wstrict-prototypes -Winline -Wundef -Wnested-externs -Wunreachable-code '.
-			\'-Wlogical-op -Wfloat-equal -Wredundant-decls -Winline '.
+			\'-pedantic -Wall -Wextra '.
+			\'-Wno-switch-default -Wno-sign-compare '.
+			\'-Wdouble-promotion -Wformat=2 -Wmissing-include-dirs '.
+			\'-Wsync-nand -Wunused -Wuninitialized -Wunknown-pragmas '.
+			\'-Wstrict-overflow=5 -Wtrampolines -Wfloat-equal '.
+			\'-Wundef -Wshadow -Wunsafe-loop-optimizations '.
+			\'-Wcast-qual -Wcast-align -Wwrite-strings -Wconversion '.
+			\'-Wsign-conversion -Wlogical-op -Wmissing-declarations '.
+			\'-Wno-multichar -Wnormalized=nfc -Wpacked -Wpadded '.
+			\'-Wredundant-decls -Winline -Winvalid-pch '.
+			\'-Wvector-operation-performance -Wvla '.
+			\'-Wdisabled-optimization -Wstack-protector '.
+			\'-Woverlength-strings '.
+			\'-Wtraditional-conversion -Wdeclaration-after-statement '.
+			\'-Wbad-function-cast -Wjump-misses-init '.
+			\'-Wstrict-prototypes -Wold-style-definition '.
+			\'-Wmissing-prototypes -Wnested-externs '.
+			\'-Wunsuffixed-float-constants '.
 			\'-o $(FILE_TITLE)$.o',
 		\'$(FILE_EXEC)$.o || ([[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o)')
 call SingleCompile#SetCompilerTemplate('make', 'mkp', 'dry run / debug', 'make',
