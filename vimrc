@@ -107,6 +107,8 @@ set fillchars+=vert:\ "
 set nomodeline
 " toggle paste (i.e., disables smart formatting)
 set pastetoggle=<F2>
+" show line at 80 chars
+set colorcolumn=80
 
 " augroup VimHardmode
 " 	autocmd!
@@ -151,6 +153,7 @@ let g:qrp_compilerun=[
 			\ ]
 nm <F7> :call QuickRun('qrp_compilerun', 0)<CR>
 nm <S-F7> :call QuickRun('qrp_compilerun', 1)<CR>
+nm <F8> :echo 'available'<CR>
 
 let g:qrp_extras=[
 			\ '! chmod a+x "%:p"',
