@@ -28,10 +28,10 @@ d_src = .
 d_icl = .
 d_ntm = tmp
 
-srcs = $(wildcard $(d_src)/*.c)
-objs = $(srcs:$(d_src)/%.c=$(d_ntm)/%.o)
-CC = gcc
-CFLAGS += $(cflags) $(dbgflags)
+srcs := $(wildcard $(d_src)/*.c)
+objs := $(srcs:$(d_src)/%.c=$(d_ntm)/%.o)
+CC        = gcc
+CFLAGS   += $(cflags) $(dbgflags)
 CPPFLAGS += $(addprefix -I, $(d_icl))
 
 .PHONY: all
@@ -39,20 +39,17 @@ all: $(exe)
 $(exe): $(objs)
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 $(d_ntm)/%.o : $(d_src)/%.c
-	$(COMPILE.c) $(OUTPUT_OPTION) $<
+	@mkdir -p $(@D)
+	$(COMPILE.c) -MD -MP $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:
 	-rm -f $(exe)
-	-rm -f $(d_ntm)/*.d $(d_ntm)/*.d.* $(d_ntm)/*.o
+	-rm -f $(d_ntm)/*.d $(d_ntm)/*.o
 	-rmdir --ignore-fail-on-non-empty -p $(d_ntm)
 
--include $(srcs:$(d_src)/%.c=$(d_ntm)/%.d)
-$(d_ntm)/%.d: $(d_src)/%.c
-	@mkdir -p $(@D)
-	@echo 'update dependency for $<'
-	@set -e; rm -f $@; \
-	$(CC) -M -MT $(d_ntm)/$*.o $(CPPFLAGS) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-	rm -f $@.$$$$
+.PHONY: run
+run: all
+	./$(exe)
 
+-include $(objs:.o=.d)
