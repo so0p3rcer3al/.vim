@@ -50,6 +50,6 @@ clean:
 
 .PHONY: run
 run: all
-	./$(exe)
+	`readlink -e $(exe)`
 
 -include $(objs:.o=.d)
