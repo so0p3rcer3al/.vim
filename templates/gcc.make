@@ -1,6 +1,7 @@
-cflags = -std=c11 -ggdb3 -O0
-dbgflags =      -pedantic                                                     \
-                -Wall -Wextra                                                 \
+cflags   = -std=c11
+cxxflags = -std=c++11
+dbgcpp   =      -ggdb3 -O0                                                    \
+                -pedantic -Wall -Wextra                                       \
                 -Wno-switch-default -Wno-sign-compare                         \
                 -Wdouble-promotion -Wformat=2 -Wmissing-include-dirs          \
                 -Wsync-nand -Wunused -Wuninitialized -Wunknown-pragmas        \
@@ -12,14 +13,13 @@ dbgflags =      -pedantic                                                     \
                 -Wredundant-decls -Winline -Winvalid-pch                      \
                 -Wvector-operation-performance -Wvla                          \
                 -Wdisabled-optimization -Wstack-protector                     \
-                -Woverlength-strings                                          \
-        # c only
-                -Wtraditional-conversion -Wdeclaration-after-statement        \
+                -Woverlength-strings
+dbgc     =      -Wtraditional-conversion -Wdeclaration-after-statement        \
                 -Wbad-function-cast -Wjump-misses-init                        \
                 -Wstrict-prototypes -Wold-style-definition                    \
                 -Wmissing-prototypes -Wnested-externs                         \
                 -Wunsuffixed-float-constants
-        # gcc >= 4.8 only
+	# for reference: gcc >= 4.8 only
                 # -Wzero-as-null-pointer-constant                             \
                 # -Wconditionally-supported -Wdelete-incomplete               \
                 # -Wuseless-cast -Wvarargs
@@ -27,20 +27,23 @@ exe   = prog
 d_src = .
 d_icl = .
 d_ntm = tmp
+cx    = c
 
-srcs := $(wildcard $(d_src)/*.c)
-objs := $(srcs:$(d_src)/%.c=$(d_ntm)/%.o)
+srcs := $(wildcard $(d_src)/*.$(cx))
+objs := $(srcs:$(d_src)/%.$(cx)=$(d_ntm)/%.o)
 CC        = gcc
-CFLAGS   += $(cflags) $(dbgflags)
+CXX       = g++
+CFLAGS   += $(strip $(cflags) $(dbgcpp) $(dbgc))
+CXXFLAGS += $(strip $(cxxflags) $(dbgcpp))
 CPPFLAGS += $(addprefix -I, $(d_icl))
 
 .PHONY: all
 all: $(exe)
 $(exe): $(objs)
-	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
-$(d_ntm)/%.o : $(d_src)/%.c
+	$(LINK.$(cx)) $^ $(LOADLIBES) $(LDLIBS) -o $@
+$(d_ntm)/%.o : $(d_src)/%.$(cx)
 	@mkdir -p $(@D)
-	$(COMPILE.c) -MD -MP $(OUTPUT_OPTION) $<
+	$(COMPILE.$(cx)) -MD -MP $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:
