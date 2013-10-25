@@ -1,5 +1,6 @@
 cflags   = -std=c11
 cxxflags = -std=c++11
+ifneq ($F,1)
 dbgcpp   =      -ggdb3 -O0                                                    \
                 -pedantic -Wall -Wextra                                       \
                 -Wno-switch-default -Wno-sign-compare                         \
@@ -23,6 +24,10 @@ dbgc     =      -Wtraditional-conversion -Wdeclaration-after-statement        \
                 # -Wzero-as-null-pointer-constant                             \
                 # -Wconditionally-supported -Wdelete-incomplete               \
                 # -Wuseless-cast -Wvarargs
+else
+dbgcpp   =      -O2
+endif
+
 exe   = prog
 d_src = .
 d_icl = .
@@ -47,8 +52,8 @@ $(d_ntm)/%.o : $(d_src)/%.$(cx)
 
 .PHONY: clean
 clean:
-	-rm -f $(exe)
-	-rm -f $(d_ntm)/*.d $(d_ntm)/*.o
+	-rm -fv $(exe)
+	-rm -fv $(d_ntm)/*.d $(d_ntm)/*.o
 	-rmdir --ignore-fail-on-non-empty -p $(d_ntm)
 
 .PHONY: run
