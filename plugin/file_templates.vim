@@ -28,11 +28,11 @@ else
 	echoerr "Multiple plugin installs found: something has gone wrong!"
 endif
 
-" use the file's extension, if it exists.
-" otherwise, use the filetype.
+" use the file's filetype, if it exists.
+" otherwise, fall back on the extension.
 function! s:GetFileExtension()
 	let ext = expand('%:e')
-	return (ext != '' ? ext : &ft)
+	return (&ft != '' ? &ft : ext)
 endfunction
 
 function! ListAvailableTemplates(A,L,P)
