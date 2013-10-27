@@ -33,6 +33,7 @@ d_src = .
 d_icl = .
 d_ntm = tmp
 cx    = c
+# additional: F, runargs
 
 srcs := $(wildcard $(d_src)/*.$(cx))
 objs := $(srcs:$(d_src)/%.$(cx)=$(d_ntm)/%.o)
