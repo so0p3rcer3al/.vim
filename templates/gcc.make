@@ -67,6 +67,7 @@ update-args:
 	@mkdir -p $(d_ntm)
 	@rm -fv $(d_ntm)/*.d $(d_ntm)/*.o
 	@echo prevargs=$(currargs) > $(d_ntm)/prevargs
+$(objs): update-args
 else
 -include $(objs:.o=.d)
 endif
