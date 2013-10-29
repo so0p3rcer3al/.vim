@@ -41,7 +41,7 @@ CC        = gcc
 CXX       = g++
 CFLAGS   += $(strip $(cflags) $(dbgcpp) $(dbgc))
 CXXFLAGS += $(strip $(cxxflags) $(dbgcpp))
-CPPFLAGS += $(addprefix -I, $(d_icl))
+CPPFLAGS += $(addprefix -I,$(d_icl))
 
 .PHONY: all update-args
 all: update-args $(exe)
@@ -60,7 +60,7 @@ clean:
 run: all
 	`readlink -e $(exe)` $(runargs)
 
-currargs := $(CC)_$(CXX)_$(CFLAGS)_$(CXXFLAGS)_$(CPPFLAGS)
+currargs := $(sort $(srcs))_$(CC)_$(CXX)_$(CFLAGS)_$(CXXFLAGS)_$(CPPFLAGS)
 -include $(d_ntm)/prevargs
 ifneq ($(currargs),$(prevargs))
 update-args:
