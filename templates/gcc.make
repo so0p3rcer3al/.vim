@@ -43,22 +43,30 @@ CFLAGS   += $(strip $(cflags) $(dbgcpp) $(dbgc))
 CXXFLAGS += $(strip $(cxxflags) $(dbgcpp))
 CPPFLAGS += $(addprefix -I, $(d_icl))
 
-.PHONY: all
-all: $(exe)
+.PHONY: all update-args
+all: update-args $(exe)
 $(exe): $(objs)
 	$(LINK.$(cx)) $^ $(LOADLIBES) $(LDLIBS) -o $@
 $(d_ntm)/%.o : $(d_src)/%.$(cx)
-	@mkdir -p $(@D)
 	$(COMPILE.$(cx)) -MD -MP $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:
 	-rm -fv $(exe)
-	-rm -fv $(d_ntm)/*.d $(d_ntm)/*.o
+	-rm -fv $(d_ntm)/prevargs $(d_ntm)/*.d $(d_ntm)/*.o
 	-rmdir --ignore-fail-on-non-empty -p $(d_ntm)
 
 .PHONY: run
 run: all
 	`readlink -e $(exe)` $(runargs)
 
+currargs := $(CC)_$(CXX)_$(CFLAGS)_$(CXXFLAGS)_$(CPPFLAGS)
+-include $(d_ntm)/prevargs
+ifneq ($(currargs),$(prevargs))
+update-args:
+	@mkdir -p $(d_ntm)
+	@rm -fv $(d_ntm)/*.d $(d_ntm)/*.o
+	@echo prevargs=$(currargs) > $(d_ntm)/prevargs
+else
 -include $(objs:.o=.d)
+endif
