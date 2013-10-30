@@ -47,25 +47,24 @@ CPPFLAGS += $(addprefix -I,$(d_icl))
 all: check-config $(exe)
 $(exe): $(objs)
 	$(LINK.$c) $^ $(LOADLIBES) $(LDLIBS) -o $@
-$(d_ntm)/%.o : $(d_src)/%.$c
+$(d_ntm)/%.o: $(d_src)/%.$c
 	$(COMPILE.$c) -MD -MP $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:
-	-rm -fv $(exe)
-	-rm -fv $(d_ntm)/prevcfg $(d_ntm)/*.d $(d_ntm)/*.o
+	-rm -fv $(exe) $(d_ntm)/prevcfg $(d_ntm)/*.d $(d_ntm)/*.o
 	-rmdir --ignore-fail-on-non-empty -p $(d_ntm)
 
 .PHONY: run
 run: all
 	`readlink -e $(exe)` $(runargs)
 
-newcfg := $(strip $(foreach v,srcs LINK.$c COMPILE.$c,$v:$($v)))
+newcfg   := $(strip $(foreach v,srcs LINK.$c COMPILE.$c,$v:$($v)))
 -include $(d_ntm)/prevcfg
 ifneq ($(newcfg),$(prevcfg))
 check-config:
 	@mkdir -p $(d_ntm)
-	@rm -fv $(d_ntm)/*.d $(d_ntm)/*.o
+	@rm -fv $(exe) $(d_ntm)/*.d $(d_ntm)/*.o
 	@echo prevcfg=$(newcfg) > $(d_ntm)/prevcfg
 $(objs): check-config
 else
