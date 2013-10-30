@@ -32,44 +32,42 @@ exe   = prog
 d_src = .
 d_icl = .
 d_ntm = tmp
-cx    = c
+c     = c
 # additional: F, runargs
 
-srcs := $(wildcard $(d_src)/*.$(cx))
-objs := $(srcs:$(d_src)/%.$(cx)=$(d_ntm)/%.o)
+srcs := $(wildcard $(d_src)/*.$c)
+objs := $(srcs:$(d_src)/%.$c=$(d_ntm)/%.o)
 CC        = gcc
 CXX       = g++
 CFLAGS   += $(strip $(cflags) $(dbgcpp) $(dbgc))
 CXXFLAGS += $(strip $(cxxflags) $(dbgcpp))
 CPPFLAGS += $(addprefix -I,$(d_icl))
 
-.PHONY: all update-args
-all: update-args $(exe)
+.PHONY: all check-config
+all: check-config $(exe)
 $(exe): $(objs)
-	$(LINK.$(cx)) $^ $(LOADLIBES) $(LDLIBS) -o $@
-$(d_ntm)/%.o : $(d_src)/%.$(cx)
-	$(COMPILE.$(cx)) -MD -MP $(OUTPUT_OPTION) $<
+	$(LINK.$c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+$(d_ntm)/%.o : $(d_src)/%.$c
+	$(COMPILE.$c) -MD -MP $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:
 	-rm -fv $(exe)
-	-rm -fv $(d_ntm)/prevargs $(d_ntm)/*.d $(d_ntm)/*.o
+	-rm -fv $(d_ntm)/prevcfg $(d_ntm)/*.d $(d_ntm)/*.o
 	-rmdir --ignore-fail-on-non-empty -p $(d_ntm)
 
 .PHONY: run
 run: all
 	`readlink -e $(exe)` $(runargs)
 
-currargs := $(strip $(foreach v,$(.VARIABLES),                                \
-                $(if $(filter-out default environment automatic,$(origin $v)),\
-                $v:$($v))))
--include $(d_ntm)/prevargs
-ifneq ($(currargs),$(prevargs))
-update-args:
+newcfg := $(strip $(foreach v,srcs LINK.$c COMPILE.$c,$v:$($v)))
+-include $(d_ntm)/prevcfg
+ifneq ($(newcfg),$(prevcfg))
+check-config:
 	@mkdir -p $(d_ntm)
 	@rm -fv $(d_ntm)/*.d $(d_ntm)/*.o
-	@echo prevargs=$(currargs) > $(d_ntm)/prevargs
-$(objs): update-args
+	@echo prevcfg=$(newcfg) > $(d_ntm)/prevcfg
+$(objs): check-config
 else
 -include $(objs:.o=.d)
 endif
