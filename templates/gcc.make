@@ -50,8 +50,8 @@ CFLAGS   += $(strip $(cflags) $(dbgcpp) $(dbgc))
 CXXFLAGS += $(strip $(cxxflags) $(dbgcpp) $(dbgcxx))
 CPPFLAGS += $(addprefix -I,$(d_icl))
 
-.PHONY: all check-config
-all: check-config $(exe)
+.PHONY: all
+all: $(exe)
 $(exe): $(objs)
 	$(LINK.$c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 $(d_ntm)/%.o: $(d_src)/%.$c
@@ -69,11 +69,11 @@ run: all
 newcfg   := $(strip $(foreach v,srcs LINK.$c COMPILE.$c,$v:$($v)))
 -include $(d_ntm)/prevcfg
 ifneq ($(newcfg),$(prevcfg))
-check-config:
+.PHONY: force-rebuild
+force-rebuild:
 	@mkdir -p $(d_ntm)
-	@rm -fv $(exe) $(d_ntm)/*.d $(d_ntm)/*.o
 	@echo prevcfg=$(newcfg) > $(d_ntm)/prevcfg
-$(objs): check-config
+$(objs): force-rebuild
 else
 -include $(objs:.o=.d)
 endif
