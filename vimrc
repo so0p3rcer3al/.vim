@@ -49,6 +49,11 @@ let g:airline_mode_map={
 let g:airline_enable_branch=1
 let g:airline_enable_syntastic=1
 
+let g:syntastic_c_compiler='gcc'
+let g:syntastic_c_compiler_options='-std=c11 -Wall -Wextra -pedantic'
+let g:syntastic_cpp_compiler='gcc'
+let g:syntastic_cpp_compiler_options='-std=c++11 -Wall -Wextra -pedantic'
+
 " let g:SingleCompile_showquickfixiferror = 1
 " let g:SingleCompile_showquickfixifwarning = 1
 let g:SingleCompile_silentcompileifshowquickfix=1
