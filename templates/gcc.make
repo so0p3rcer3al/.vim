@@ -1,11 +1,11 @@
 ###
-# Template base: Nov 4 2013
+# Template base: Nov 12 2013
 #
 
 ###
-# Output executable, file extension (.c/.cpp/.cc),
+# Output executable, source extension (.c/.cpp/.cc),
 # source directory (./src), intermediate directory (.o, .d).
-f_exe     = prog
+o_exe     = prog
 c         = cpp
 d_src     = .
 d_ntm     = tmp
@@ -15,7 +15,7 @@ d_ntm     = tmp
 # library names (-l), specific standalones (../libhello.a).
 d_I       = . #/usr/include/x86_64-linux-gnu/c++/4.8
 d_L       =
-d_l       =
+f_l       =
 f_lx      =
 
 ###
@@ -71,23 +71,23 @@ CFLAGS   := $(strip   $(cflags) $(cppflags) $(dbgcpp) $(dbgc))
 CXXFLAGS := $(strip $(cxxflags) $(cppflags) $(dbgcpp) $(dbgcxx))
 CPPFLAGS := $(addprefix -I,$(d_I))
 LDFLAGS  := $(addprefix -L,$(d_L))
-LDLIBS   := $(addprefix -l,$(d_l)) $(strip $(f_lx))
+LDLIBS   := $(addprefix -l,$(f_l)) $(strip $(f_lx))
 
 .PHONY: all
-all: $(f_exe)
-$(f_exe): $(objs)
+all: $(o_exe)
+$(o_exe): $(objs)
 	$(LINK.$c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 $(d_ntm)/%.o: $(d_src)/%.$c
 	$(COMPILE.$c) -MD -MP $(OUTPUT_OPTION) $<
 
 .PHONY: clean
 clean:
-	-rm -fv $(f_exe) $(d_ntm)/prevcfg $(d_ntm)/*.d $(d_ntm)/*.o
+	-rm -fv $(o_exe) $(d_ntm)/prevcfg $(d_ntm)/*.d $(d_ntm)/*.o
 	-rmdir --ignore-fail-on-non-empty -p $(d_ntm)
 
 .PHONY: run
 run: all
-	`readlink -e $(f_exe)` $(runargs)
+	`readlink -e $(o_exe)` $(runargs)
 
 newcfg   := $(strip $(foreach v,srcs LINK.$c COMPILE.$c LDLIBS,$v:$($v)))
 -include $(d_ntm)/prevcfg
