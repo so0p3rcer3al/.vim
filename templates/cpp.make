@@ -71,6 +71,8 @@ CPPFLAGS := $(addprefix -I,$(d_I))
 LDFLAGS  := $(addprefix -L,$(d_L))
 LDLIBS   := $(addprefix -l,$(f_l)) $(strip $(f_lx))
 
+.DELETE_ON_ERROR: $(o_exe) $(objs)
+
 .PHONY: all
 all: $(o_exe)
 $(o_exe): $(objs)
