@@ -1,5 +1,6 @@
 ###
-# Template base: Nov 17 2013
+# Template base: Nov 18 2013
+# TODO: option to output as lib instead of executable.
 #
 
 ###
@@ -30,11 +31,12 @@ cxxflags  = -std=c++11
 
 
 
-family   := $(if $(findstring $c,c),$(cc),$(cxx))
+F         = 0
+family   := $(if $(filter $c,c),$(cc),$(cxx))
 o        := $(if $(findstring $F,0),-O0,-O2)
 
 ifneq ($F,1)
-ifneq ($(findstring $(family),gcc g++),)
+ifneq ($(filter $(family),gcc g++),)
 dbgcpp    = -ggdb3 -pedantic -Wall -Wextra                                    \
             -Wno-switch-default -Wno-sign-compare -Wdouble-promotion          \
             -Wformat=2 -Wmissing-include-dirs -Wsync-nand -Wunused            \
@@ -52,8 +54,8 @@ dbgc      = -Wtraditional-conversion -Wdeclaration-after-statement            \
             -Wunsuffixed-float-constants
 dbgcxx    = -Wzero-as-null-pointer-constant -Wuseless-cast -Wvarargs
 endif
-ifneq ($(findstring $(family),clang),)
-dbgcpp    = -Weverything
+ifneq ($(filter $(family),clang clang++),)
+dbgcpp    = -Weverything -Wno-c++98-compat
 endif
 endif
 
@@ -102,5 +104,6 @@ $(objs): force-rebuild
 else
 -include $(objs:.o=.d)
 endif
+
 
 
