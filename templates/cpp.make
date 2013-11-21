@@ -1,5 +1,5 @@
 ###
-# Template base: Nov 18 2013
+# Template base: Nov 21 2013
 # TODO: option to output as lib instead of executable.
 #
 
@@ -34,9 +34,11 @@ cxxflags  = -std=c++11
 F         = 0
 family   := $(if $(filter $c,c),$(cc),$(cxx))
 o        := $(if $(findstring $F,0),-O0,-O2)
+# Non-empty if an element in $2 is a prefix of $1.
+prematch  = $(strip $(foreach p,$2,$(findstring ^$p,^$1)))
 
 ifneq ($F,1)
-ifneq ($(filter $(family),gcc g++),)
+ifneq ($(call prematch,$(family),gcc g++),)
 dbgcpp    = -ggdb3 -pedantic -Wall -Wextra                                    \
             -Wno-switch-default -Wno-sign-compare -Wdouble-promotion          \
             -Wformat=2 -Wmissing-include-dirs -Wsync-nand -Wunused            \
@@ -54,7 +56,7 @@ dbgc      = -Wtraditional-conversion -Wdeclaration-after-statement            \
             -Wunsuffixed-float-constants
 dbgcxx    = -Wzero-as-null-pointer-constant -Wuseless-cast -Wvarargs
 endif
-ifneq ($(filter $(family),clang clang++),)
+ifneq ($(call prematch,$(family),clang),)
 dbgcpp    = -Weverything -Wno-c++98-compat
 endif
 endif
