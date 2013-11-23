@@ -1,6 +1,6 @@
 ###
 # Template base: Nov 21 2013
-# TODO: option to output as lib instead of executable.
+# TODO: -option to output as lib instead of executable.
 #
 
 ###

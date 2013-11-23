@@ -1,15 +1,15 @@
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
-#include <vector>
-#include <string>
 #include <memory>
-#include <algorithm>
+#include <string>
+#include <vector>
 
 using ::std::cout;
-using ::std::vector;
 using ::std::string;
 using ::std::unique_ptr;
+using ::std::vector;
 
 int main()
 {
