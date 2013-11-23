@@ -54,39 +54,6 @@ let g:syntastic_c_compiler_options='-std=c11 -Wall -Wextra -pedantic'
 let g:syntastic_cpp_compiler='gcc'
 let g:syntastic_cpp_compiler_options='-std=c++11 -Wall -Wextra -pedantic'
 
-" let g:SingleCompile_showquickfixiferror = 1
-" let g:SingleCompile_showquickfixifwarning = 1
-let g:SingleCompile_silentcompileifshowquickfix=1
-let g:SingleCompile_usequickfix=1
-let g:SingleCompile_usetee=0
-
-call SingleCompile#SetCompilerTemplate('c', 'gcc_d', 'gcc + gdb', 'gcc',
-		\'-std=c11 -O0 -ggdb3 '.
-			\'-pedantic -Wall -Wextra '.
-			\'-Wno-switch-default -Wno-sign-compare '.
-			\'-Wdouble-promotion -Wformat=2 -Wmissing-include-dirs '.
-			\'-Wsync-nand -Wunused -Wuninitialized -Wunknown-pragmas '.
-			\'-Wstrict-overflow=5 -Wtrampolines -Wfloat-equal '.
-			\'-Wundef -Wshadow -Wunsafe-loop-optimizations '.
-			\'-Wcast-qual -Wcast-align -Wwrite-strings -Wconversion '.
-			\'-Wsign-conversion -Wlogical-op -Wmissing-declarations '.
-			\'-Wno-multichar -Wnormalized=nfc -Wpacked -Wpadded '.
-			\'-Wredundant-decls -Winline -Winvalid-pch '.
-			\'-Wvector-operation-performance -Wvla '.
-			\'-Wdisabled-optimization -Wstack-protector '.
-			\'-Woverlength-strings '.
-			\'-Wtraditional-conversion -Wdeclaration-after-statement '.
-			\'-Wbad-function-cast -Wjump-misses-init '.
-			\'-Wstrict-prototypes -Wold-style-definition '.
-			\'-Wmissing-prototypes -Wnested-externs '.
-			\'-Wunsuffixed-float-constants '.
-			\'-o $(FILE_TITLE)$.o',
-		\'$(FILE_EXEC)$.o || ([[ $? -ne 0 ]] && gdb $(FILE_EXEC)$.o)')
-call SingleCompile#SetCompilerTemplate('make', 'mkp', 'dry run / debug', 'make',
-		\'-nf $(FILE_NAME)$', '')
-call SingleCompile#ChooseCompiler('c', 'gcc_d')
-call SingleCompile#ChooseCompiler('python', 'python3')
-
 let g:file_template_default = {}
 let g:file_template_default["default"] = 'default'
 
@@ -164,10 +131,6 @@ let g:sccr_additional_args=''
 let g:qrp_compilerun=[
 			\ 'make',
 			\ 'make clean',
-			\ 'SCCompileRun',
-			\ 'SCCompileRunAF g:sccr_additional_args',
-			\ 'SCCompile',
-			\ 'SCCompileAF g:sccr_additional_args',
 			\ '! "%:p"',
 			\ ]
 nm <F7> :call QuickRun('qrp_compilerun', 0)<CR>
@@ -183,7 +146,7 @@ nm <S-F9> :call QuickRun('qrp_extras', 1)<CR>
 
 augr MiscAutos
 	au!
-	au BufRead,BufNewFile *.c call SetQuickRunDefault('qrp_compilerun', 'SCCompileRun')
+	au BufRead,BufNewFile *.c call SetQuickRunDefault('qrp_compilerun', 'make')
 	au BufReadPost quickfix let &winheight=min([max([4, line('$')+1]), 9])
 augr END
 
