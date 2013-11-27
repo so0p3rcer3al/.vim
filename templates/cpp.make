@@ -1,6 +1,7 @@
 ###
-# Template base: Nov 21 2013
-# TODO: -option to output as lib instead of executable.
+# Template base: Nov 26 2013
+# TODO: - option to rebuild files that generated warnings.
+#       - option to output as lib instead of executable.
 #
 
 ###
@@ -95,6 +96,11 @@ run: all
 
 
 
+###
+# Rebuild everything if the configuration has changed.
+# Otherwise, load file dependencies from previous run.
+# An alternative is to store the intermediates of each config
+# separately, using md5sum to generate unique subdirectories.
 newcfg   := $(strip $(foreach v,srcs LINK.$c COMPILE.$c LDLIBS,$v:$($v)))
 -include $(d_ntm)/prevcfg
 ifneq ($(newcfg),$(prevcfg))
