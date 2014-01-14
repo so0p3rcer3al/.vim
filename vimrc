@@ -12,6 +12,10 @@ endif
 
 " enable vim features, full colors
 set nocompatible mouse=n encoding=utf8 t_Co=256
+" Good themes that work for transparent terminals:
+" 1. defaulttheme (molokai)
+" 2. Tomorrow-Night
+set background=dark
 colorscheme defaulttheme
 
 " set rtp+=~/.vim/autoload " try uncommenting if pathogen fails to load.
