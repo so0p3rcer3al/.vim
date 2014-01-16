@@ -16,7 +16,7 @@ set nocompatible mouse=n encoding=utf8 t_Co=256
 " 1. defaulttheme (molokai)
 " 2. Tomorrow-Night
 set background=dark
-colorscheme defaulttheme
+colorscheme Tomorrow-Night
 
 " set rtp+=~/.vim/autoload " try uncommenting if pathogen fails to load.
 execute pathogen#infect()

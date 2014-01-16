@@ -1,13 +1,13 @@
 ###
-# Template base: Nov 26 2013
+# Template base: Jan 15 2014
 # TODO: - option to rebuild files that generated warnings.
-#       - option to output as lib instead of executable.
 #
 
+
 ###
-# Output executable, source extension (.c/.cpp/.cc),
+# Output file (<none=exe>/.a/.so), source extension (.c/.cpp/.cc),
 # source directory (./src), intermediate directory (.o, .d).
-o_exe     = prog
+f_out     = prog
 c         = cpp
 d_src     = .
 d_ntm     = tmp
@@ -27,6 +27,7 @@ f_lx      =
 cc        = gcc
 cxx       = g++
 cppflags  = #-pthread -Wl,--no-as-needed
+            #-fPIC
 cflags    = -std=c11
 cxxflags  = -std=c++11
 
@@ -68,6 +69,7 @@ endif
 # Internals: preprocessing followed by rules.
 srcs     := $(wildcard $(d_src)/*.$c)
 objs     := $(srcs:$(d_src)/%.$c=$(d_ntm)/%.o)
+outext   := $(suffix $(f_out))
 CC       := $(cc)
 CXX      := $(cxx)
 CFLAGS   := $(strip   $(cflags) $o $(cppflags) $(dbgcpp) $(dbgc))
@@ -76,23 +78,34 @@ CPPFLAGS := $(addprefix -I,$(d_I))
 LDFLAGS  := $(addprefix -L,$(d_L))
 LDLIBS   := $(addprefix -l,$(f_l)) $(strip $(f_lx))
 
-.DELETE_ON_ERROR: $(o_exe) $(objs)
+.DELETE_ON_ERROR: $(f_out) $(objs)
 
 .PHONY: all
-all: $(o_exe)
-$(o_exe): $(objs)
-	$(LINK.$c) $^ $(LOADLIBES) $(LDLIBS) -o $@
-$(d_ntm)/%.o: $(d_src)/%.$c
-	$(COMPILE.$c) -MD -MP $(OUTPUT_OPTION) $<
+all: $(f_out)
 
 .PHONY: clean
 clean:
-	-rm -fv $(o_exe) $(d_ntm)/prevcfg $(d_ntm)/*.d $(d_ntm)/*.o
+	-rm -fv $(f_out) $(d_ntm)/prevcfg $(d_ntm)/*.d $(d_ntm)/*.o
 	-rmdir --ignore-fail-on-non-empty -p $(d_ntm)
 
 .PHONY: run
 run: all
-	`readlink -e $(o_exe)` $(runargs)
+	`readlink -e $(f_out)` $(runargs)
+
+$(f_out): $(objs)
+ifeq ($(outext),)
+	$(LINK.$c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+endif
+ifeq ($(outext),.a)
+	-rm -fv $@
+	$(AR) $(ARFLAGS) $@ $^
+endif
+ifeq ($(outext),.so)
+	$(LINK.$c) -shared $^ -o $@
+endif
+
+$(d_ntm)/%.o: $(d_src)/%.$c
+	$(COMPILE.$c) -MD -MP $(OUTPUT_OPTION) $<
 
 
 
